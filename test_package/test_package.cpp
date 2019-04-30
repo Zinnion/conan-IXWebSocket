@@ -1,75 +1,38 @@
-#include <iostream>
-#include <sstream>
-#include <ixwebsocket/IXWebSocketServer.h>
+#include <ixwebsocket/IXWebSocket.h>
+#include <ixwebsocket/IXSocket.h>
 
-namespace ix
-{
-    int ws_echo_server_main(int port, const std::string& hostname)
-    {
-        std::cout << "Listening on " << hostname << ":" << port << std::endl;
+int main(int argc, char ** argv) {
 
-        ix::WebSocketServer server(port, hostname);
+  ix::WebSocket webSocket;
 
-        server.setOnConnectionCallback(
-            [](std::shared_ptr<ix::WebSocket> webSocket,
-               std::shared_ptr<ConnectionState> connectionState)
-            {
-                webSocket->setOnMessageCallback(
-                    [webSocket, connectionState](ix::WebSocketMessageType messageType,
-                       const std::string& str,
-                       size_t wireSize,
-                       const ix::WebSocketErrorInfo& error,
-                       const ix::WebSocketOpenInfo& openInfo,
-                       const ix::WebSocketCloseInfo& closeInfo)
-                    {
-                        if (messageType == ix::WebSocket_MessageType_Open)
-                        {
-                            std::cerr << "New connection" << std::endl;
-                            std::cerr << "id: " << connectionState->getId() << std::endl;
-                            std::cerr << "Uri: " << openInfo.uri << std::endl;
-                            std::cerr << "Headers:" << std::endl;
-                            for (auto it : openInfo.headers)
-                            {
-                                std::cerr << it.first << ": " << it.second << std::endl;
-                            }
-                        }
-                        else if (messageType == ix::WebSocket_MessageType_Close)
-                        {
-                            std::cerr << "Closed connection"
-                                      << " code " << closeInfo.code
-                                      << " reason " << closeInfo.reason << std::endl;
-                        }
-                        else if (messageType == ix::WebSocket_MessageType_Error)
-                        {
-                            std::stringstream ss;
-                            ss << "Connection error: " << error.reason      << std::endl;
-                            ss << "#retries: "         << error.retries     << std::endl;
-                            ss << "Wait time(ms): "    << error.wait_time   << std::endl;
-                            ss << "HTTP Status: "      << error.http_status << std::endl;
-                            std::cerr << ss.str();
-                        }
-                        else if (messageType == ix::WebSocket_MessageType_Message)
-                        {
-                            std::cerr << "Received "
-                                      << wireSize << " bytes"
-                                      << std::endl;
-                            webSocket->send(str);
-                        }
-                    }
-                );
-            }
-        );
+  std::string url("ws://localhost:8080/");
+  webSocket.setUrl(url);
 
-        auto res = server.listen();
-        if (!res.first)
-        {
-            std::cerr << res.second << std::endl;
-            return 1;
-        }
+  // Optional heart beat, sent every 45 seconds when there is not any traffic
+  // to make sure that load balancers do not kill an idle connection.
+  webSocket.setHeartBeatPeriod(45);
 
-        server.start();
-        server.wait();
+  // Setup a callback to be fired when a message or an event (open, close, error) is received
+  webSocket.setOnMessageCallback(
+    [](ix::WebSocketMessageType messageType,
+      const std::string & str,
+        size_t wireSize,
+        const ix::WebSocketErrorInfo & error,
+          const ix::WebSocketOpenInfo & openInfo,
+            const ix::WebSocketCloseInfo & closeInfo) {
+      if (messageType == ix::WebSocket_MessageType_Message) {
+        std::cout << str << std::endl;
+      }
+    });
 
-        return 0;
-    }
+  // Now that our callback is setup, we can start our background thread and receive messages
+  webSocket.start();
+
+  // Send a message to the server (default to BINARY mode)
+  webSocket.send("hello world");
+
+  // Stop the connection
+  webSocket.stop();
+
+  return 0;
 }

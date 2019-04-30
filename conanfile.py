@@ -20,19 +20,13 @@ class NanomsgConan(ConanFile):
     generators = "cmake"
     source_subfolder = "source_subfolder"
     build_subfolder = "build_subfolder"
-    options = {
-       "shared": [True, False],
-       "enable_tests": [True, False],
-       "enable_tools": [True, False],
-       "enable_nngcat": [True, False],
-    }
 
-    default_options = (
-        "shared=False",
-        "enable_tests=False",
-        "enable_tools=False",
-        "enable_nngcat=False"
-    )
+    def config_options(self):
+        del self.settings.compiler.libcxx
+
+    def requirements(self):
+        self.requires.add("OpenSSL/1.1.1b@zinnion/stable")
+        self.requires.add("zlib/1.2.11@zinnion/stable")
 
     def source(self):
         tools.get("{0}/archive/v{1}.tar.gz".format(self.homepage, self.version))
@@ -52,13 +46,15 @@ class NanomsgConan(ConanFile):
     def build(self):
         cmake = self.configure_cmake()
         cmake.build()
+        cmake.install()
 
     def package(self):
-        self.copy(pattern="LICENSE.txt", dst="license", src=self.source_subfolder)
         self.copy(pattern="*.cpp", dst="include/ixwebsocket", src=self.source_subfolder + '/ixwebsocket')
         self.copy(pattern="*.h", dst="include/ixwebsocket", src=self.source_subfolder + '/ixwebsocket')
-        cmake = self.configure_cmake()
-        cmake.install()
+        self.copy("libixwebsocket.a", dst="lib", src=self.build_subfolder, keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
+        self.cpp_info.libs = ["ixwebsocket"]
+        if self.settings.os == "Linux":
+            self.cpp_info.libs.append("pthread")
