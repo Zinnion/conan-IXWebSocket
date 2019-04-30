@@ -40,8 +40,10 @@ class NanomsgConan(ConanFile):
 
     def configure_cmake(self):
         cmake = CMake(self)
-        openssl_root_dir = self.deps_cpp_info["OpenSSL"].rootpath
-        cmake.definitions['OPENSSL_ROOT_DIR'] = openssl_root_dir
+        #openssl_root_dir = self.deps_cpp_info["OpenSSL"].rootpath
+        #cmake.definitions['OPENSSL_ROOT_DIR'] = openssl_root_dir
+        os.environ['OPENSSL_ROOT_DIR'] = self.deps_cpp_info["OpenSSL"].rootpath
+
         cmake.configure(source_folder=self.source_subfolder, build_folder=self.build_subfolder)
         return cmake
 
