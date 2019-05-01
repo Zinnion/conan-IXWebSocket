@@ -6,7 +6,7 @@ import os
 
 class NanomsgConan(ConanFile):
     name = "IXWebSocket"
-    version = "1.3.3"
+    version = "1.3.4"
     description = "WebSocket client/server"
     topics = ("conan", "IXWebSocket", "communication", "socket", "websocket")
     url = "https://github.com/zinnion/conan-IXWebSocket"
@@ -31,7 +31,7 @@ class NanomsgConan(ConanFile):
         os.rename(extracted_dir, self.source_subfolder)
 
     def configure(self):
-        del self.settings.compiler.libcxx
+        #del self.settings.compiler.libcxx
         if self.settings.compiler == "Visual Studio" and float(self.settings.compiler.version.value) < 14:
             raise Exception("ngg could not be built by MSVC <14")
 
