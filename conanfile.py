@@ -6,7 +6,7 @@ import os
 
 class NanomsgConan(ConanFile):
     name = "IXWebSocket"
-    version = "1.4.3"
+    version = "1.4.5"
     description = "WebSocket client/server"
     topics = ("conan", "IXWebSocket", "communication", "socket", "websocket")
     url = "https://github.com/zinnion/conan-IXWebSocket"
@@ -33,7 +33,6 @@ class NanomsgConan(ConanFile):
     def configure_cmake(self):
         cmake = CMake(self)
         os.environ['OPENSSL_ROOT_DIR'] = self.deps_cpp_info["OpenSSL"].rootpath
-        #os.environ['ZLIB_ROOT'] = self.deps_cpp_info["zlib"].rootpath
         cmake.configure(source_folder=self.source_subfolder, build_folder=self.build_subfolder)
         return cmake
 
