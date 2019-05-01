@@ -35,10 +35,8 @@ class IXWebSocketConan(ConanFile):
         cmake = CMake(self)
         opts = dict()
         os.environ['OPENSSL_ROOT_DIR'] = self.deps_cpp_info["OpenSSL"].rootpath
-        zlibRootDir = self.deps_cpp_info["zlib"].rootpath
-        opts["ZLIB_INCLUDE_DIR"] = os.path.join(zlibRootDir, self.deps_cpp_info["zlib"].includedirs[0])
-        libDir = os.path.join(zlibRootDir, self.deps_cpp_info["zlib"].libdirs[0])
-        libFiles = [filename for filename in os.listdir(libDir) if re.match("^(lib)?" + self.deps_cpp_info["zlib"].libs[0] + r"\.(a|lib)", filename)]
+        opts["ZLIB_LIBRARY"] = self.deps_cpp_info["zlib"].rootpath
+        opts["ZLIB_INCLUDE_DIR"] = os.path.join(self.deps_cpp_info["zlib"].rootpath, self.deps_cpp_info["zlib"].includedirs[0])
         cmake.configure(defs=opts, source_folder=self.source_subfolder, build_folder=self.build_subfolder)
         return cmake
 
