@@ -14,11 +14,10 @@ class IXWebSocketConan(ConanFile):
     author = "Zinnion <mauro@zinnion.com>"
     license = "MIT"
     exports = ["LICENSE.md"]
-    exports_sources = ["CMakeLists.txt"]
+    exports_sources = ["CMakeLists.txt","FindZLIB.cmake"]
     settings = "os", "compiler", "build_type", "arch"
     short_paths = True
-    #generators = "cmake"
-    generators = "cmake_find_package"
+    generators = "cmake"
     source_subfolder = "source_subfolder"
     build_subfolder = "build_subfolder"
 
@@ -43,8 +42,9 @@ class IXWebSocketConan(ConanFile):
         cmake.install()
 
     def package(self):
-        self.copy(pattern="*.cpp", dst="include/ixwebsocket", src=self.source_subfolder + '/ixwebsocket')
-        self.copy(pattern="*.h", dst="include/ixwebsocket", src=self.source_subfolder + '/ixwebsocket')
+        self.copy("FindZLIB.cmake", src=self.build_subfolder, keep_path=False)
+        self.copy(pattern="*.cpp", dst="include/ixwebsocket", src=self.build_subfolder, keep_path=False)
+        self.copy(pattern="*.h", dst="include/ixwebsocket", src=self.build_subfolder, keep_path=False)
         self.copy("libixwebsocket.a", dst="lib", src=self.build_subfolder, keep_path=False)
 
     def package_info(self):
