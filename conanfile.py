@@ -39,7 +39,6 @@ class IXWebSocketConan(ConanFile):
         opts["ZLIB_INCLUDE_DIR"] = os.path.join(zlibRootDir, self.deps_cpp_info["zlib"].includedirs[0])
         libDir = os.path.join(zlibRootDir, self.deps_cpp_info["zlib"].libdirs[0])
         libFiles = [filename for filename in os.listdir(libDir) if re.match("^(lib)?" + self.deps_cpp_info["zlib"].libs[0] + r"\.(a|lib)", filename)]
-
         cmake.configure(defs=opts, source_folder=self.source_subfolder, build_folder=self.build_subfolder)
         return cmake
 
