@@ -6,7 +6,7 @@ import os
 
 class IXWebSocketConan(ConanFile):
     name = "IXWebSocket"
-    version = "1.4.5"
+    version = "1.4.6"
     description = "WebSocket client/server"
     topics = ("conan", "IXWebSocket", "communication", "socket", "websocket")
     url = "https://github.com/zinnion/conan-IXWebSocket"
@@ -17,7 +17,8 @@ class IXWebSocketConan(ConanFile):
     exports_sources = ["CMakeLists.txt"]
     settings = "os", "compiler", "build_type", "arch"
     short_paths = True
-    generators = "cmake"
+    #generators = "cmake"
+    generators = "cmake_find_package"
     source_subfolder = "source_subfolder"
     build_subfolder = "build_subfolder"
 
