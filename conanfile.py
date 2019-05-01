@@ -6,7 +6,7 @@ import os
 
 class NanomsgConan(ConanFile):
     name = "IXWebSocket"
-    version = "1.3.6"
+    version = "1.3.7"
     description = "WebSocket client/server"
     topics = ("conan", "IXWebSocket", "communication", "socket", "websocket")
     url = "https://github.com/zinnion/conan-IXWebSocket"
@@ -30,15 +30,10 @@ class NanomsgConan(ConanFile):
         extracted_dir = self.name + "-" + self.version
         os.rename(extracted_dir, self.source_subfolder)
 
-    def configure(self):
-        #del self.settings.compiler.libcxx
-        if self.settings.compiler == "Visual Studio" and float(self.settings.compiler.version.value) < 14:
-            raise Exception("ngg could not be built by MSVC <14")
-
     def configure_cmake(self):
         cmake = CMake(self)
         os.environ['OPENSSL_ROOT_DIR'] = self.deps_cpp_info["OpenSSL"].rootpath
-        os.environ['zlib_DIR'] = self.deps_cpp_info["zlib"].rootpath
+        #os.environ['zlib_DIR'] = self.deps_cpp_info["zlib"].rootpath
         cmake.configure(source_folder=self.source_subfolder, build_folder=self.build_subfolder)
         return cmake
 
