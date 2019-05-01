@@ -6,7 +6,7 @@ import os
 
 class NanomsgConan(ConanFile):
     name = "IXWebSocket"
-    version = "1.3.9"
+    version = "1.4.0"
     description = "WebSocket client/server"
     topics = ("conan", "IXWebSocket", "communication", "socket", "websocket")
     url = "https://github.com/zinnion/conan-IXWebSocket"
