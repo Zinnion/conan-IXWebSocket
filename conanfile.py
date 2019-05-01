@@ -6,7 +6,7 @@ import os
 
 class IXWebSocketConan(ConanFile):
     name = "IXWebSocket"
-    version = "1.4.6"
+    version = "1.4.7"
     description = "WebSocket client/server"
     topics = ("conan", "IXWebSocket", "communication", "socket", "websocket")
     url = "https://github.com/zinnion/conan-IXWebSocket"
