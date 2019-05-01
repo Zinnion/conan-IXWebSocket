@@ -33,7 +33,7 @@ class NanomsgConan(ConanFile):
     def configure_cmake(self):
         cmake = CMake(self)
         os.environ['OPENSSL_ROOT_DIR'] = self.deps_cpp_info["OpenSSL"].rootpath
-        #os.environ['zlib_DIR'] = self.deps_cpp_info["zlib"].rootpath
+        os.environ['ZLIB_INCLUDE_DIRS'] = self.deps_cpp_info["zlib"].rootpath
         cmake.configure(source_folder=self.source_subfolder, build_folder=self.build_subfolder)
         return cmake
 
