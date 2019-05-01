@@ -46,8 +46,8 @@ class IXWebSocketConan(ConanFile):
         cmake.install()
 
     def package(self):
-        self.copy(pattern="*.cpp", dst="include/ixwebsocket", src=self.build_subfolder, keep_path=False)
-        self.copy(pattern="*.h", dst="include/ixwebsocket", src=self.build_subfolder, keep_path=False)
+        #self.copy(pattern="*.cpp", dst="include/ixwebsocket", src=self.build_subfolder, keep_path=False)
+        #self.copy(pattern="*.h", dst="include/ixwebsocket", src=self.build_subfolder, keep_path=False)
         self.copy("libixwebsocket.a", dst="lib", src=self.build_subfolder, keep_path=False)
 
     def package_info(self):
