@@ -3,15 +3,13 @@
 
 from conans import ConanFile, CMake, tools
 import os
-import re
 
 class IXWebSocketConan(ConanFile):
     name = "IXWebSocket"
-    version = "1.3.1"
+    version = "1.5.1"
     description = "WebSocket client/server"
     topics = ("conan", "IXWebSocket", "communication", "socket", "websocket")
-    #url = "https://github.com/zinnion/conan-IXWebSocket"
-    url = "https://github.com/machinezone/conan-IXWebSocket"
+    url = "https://github.com/zinnion/conan-IXWebSocket"
     homepage = "https://github.com/maurodelazeri/IXWebSocket"
     author = "Zinnion <mauro@zinnion.com>"
     license = "MIT"
