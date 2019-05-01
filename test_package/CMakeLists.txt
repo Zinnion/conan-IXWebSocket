@@ -8,8 +8,5 @@ set(CMAKE_VERBOSE_MAKEFILE TRUE)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-find_package("ZLIB" REQUIRED)
-include_directories(${ZLIB_INCLUDE_DIRS})
-
 add_executable(${PROJECT_NAME} test_package.cpp)
-target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS} ${ZLIB_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
