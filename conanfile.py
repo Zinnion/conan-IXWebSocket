@@ -7,10 +7,11 @@ import re
 
 class IXWebSocketConan(ConanFile):
     name = "IXWebSocket"
-    version = "1.5.0"
+    version = "1.3.1"
     description = "WebSocket client/server"
     topics = ("conan", "IXWebSocket", "communication", "socket", "websocket")
-    url = "https://github.com/zinnion/conan-IXWebSocket"
+    #url = "https://github.com/zinnion/conan-IXWebSocket"
+    url = "https://github.com/machinezone/conan-IXWebSocket"
     homepage = "https://github.com/maurodelazeri/IXWebSocket"
     author = "Zinnion <mauro@zinnion.com>"
     license = "MIT"
@@ -46,8 +47,6 @@ class IXWebSocketConan(ConanFile):
         cmake.install()
 
     def package(self):
-        #self.copy(pattern="*.cpp", dst="include/ixwebsocket", src=self.build_subfolder, keep_path=False)
-        #self.copy(pattern="*.h", dst="include/ixwebsocket", src=self.build_subfolder, keep_path=False)
         self.copy("libixwebsocket.a", dst="lib", src=self.build_subfolder, keep_path=False)
 
     def package_info(self):
