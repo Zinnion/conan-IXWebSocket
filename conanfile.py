@@ -43,6 +43,8 @@ class IXWebSocketConan(ConanFile):
 
     def package(self):
         self.copy("FindZLIB.cmake", src=self.build_subfolder, keep_path=False)
+        self.copy("FindZLIB.cmake", src=self.source_subfolder, keep_path=False)
+        self.copy("FindZLIB.cmake", ".", ".")
         self.copy(pattern="*.cpp", dst="include/ixwebsocket", src=self.build_subfolder, keep_path=False)
         self.copy(pattern="*.h", dst="include/ixwebsocket", src=self.build_subfolder, keep_path=False)
         self.copy("libixwebsocket.a", dst="lib", src=self.build_subfolder, keep_path=False)
