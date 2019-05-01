@@ -4,7 +4,7 @@
 from conans import ConanFile, CMake, tools
 import os
 
-class NanomsgConan(ConanFile):
+class IXWebSocketConan(ConanFile):
     name = "IXWebSocket"
     version = "1.4.5"
     description = "WebSocket client/server"
